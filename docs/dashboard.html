@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Current Capacity — MediCap</title>
+  <meta name="description" content="Interactive hospital room and usable bed capacity demo." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: { brand: { indigo: '#005ea8', sky: '#005ea8', teal: '#147d64', amber: '#8a5700', red: '#b42318' } },
+      fontFamily: {
+        sans: ['IBM Plex Sans','ui-sans-serif','system-ui','sans-serif'],
+        mono: ['IBM Plex Mono','ui-monospace','monospace'],
+        display: ['IBM Plex Sans','ui-sans-serif','system-ui','sans-serif'],
+        grotesk: ['IBM Plex Sans','ui-sans-serif','system-ui','sans-serif'],
+      },
+    } } };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body class="min-h-screen antialiased">
+  <main id="main-content" class="app-main">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">Hospital operations / session 01</p>
+        <h1 class="page-title">Current capacity</h1>
+        <p class="page-intro">Demo records · changes remain in this browser tab until reset</p>
+      </div>
+      <div class="page-actions">
+        <button id="reset-btn" class="button button--danger-quiet">
+          <i class="ri-restart-line" aria-hidden="true"></i> Reset demo
+        </button>
+        <button id="admit-btn" class="button button--primary">
+          <i class="ri-user-add-line" aria-hidden="true"></i> Admit patient
+        </button>
+      </div>
+    </header>
+
+    <section id="stats" class="metric-strip" aria-label="Capacity summary"></section>
+
+    <section class="filter-panel" aria-labelledby="filter-title">
+      <div class="filter-panel__head">
+        <h2 id="filter-title" class="filter-panel__title">Filter room records</h2>
+        <button id="f-clear" class="button button--quiet">Clear filters</button>
+      </div>
+      <div class="filter-grid">
+        <label for="f-department" class="field-label">
+          Department
+          <select id="f-department" class="field-control"><option value="">All departments</option></select>
+        </label>
+        <label for="f-type" class="field-label">
+          Room type
+          <select id="f-type" class="field-control">
+            <option value="">All room types</option><option>ICU</option><option>Private</option><option>Semi-Private</option><option>General Ward</option>
+          </select>
+        </label>
+        <label for="f-status" class="field-label">
+          Status
+          <select id="f-status" class="field-control">
+            <option value="">All statuses</option><option>Available</option><option>Full</option><option>Maintenance</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <div class="section-heading-row">
+      <h2 class="section-title">Room records</h2>
+      <span class="section-note">Status is written and color-coded</span>
+    </div>
+    <section id="rooms" class="room-grid" aria-label="Room capacity" aria-live="polite"></section>
+    <p id="rooms-empty" class="hidden empty-note py-10 text-center">No rooms match the current filters.</p>
+  </main>
+
+  <div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-help modal-error" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h3 id="modal-title" class="modal-title">Admit a patient</h3>
+        <button data-close aria-label="Close admission dialog" class="icon-button"><i class="ri-close-line" aria-hidden="true"></i></button>
+      </div>
+      <p id="modal-help" class="modal-help">Add a demo patient and assign one usable bed.</p>
+      <form id="admit-form" class="form-stack">
+        <div class="form-grid">
+          <label for="first_name" class="field-label">First name
+            <input id="first_name" name="first_name" required class="field-control" />
+          </label>
+          <label for="last_name" class="field-label">Last name
+            <input id="last_name" name="last_name" required class="field-control" />
+          </label>
+        </div>
+        <label for="contact_number" class="field-label">Contact number
+          <input id="contact_number" name="contact_number" class="field-control" />
+        </label>
+        <label for="room_id" class="field-label">Assign room <span>(available only)</span>
+          <select id="room_id" name="room_id" required class="field-control"><option value="">Select a room…</option></select>
+        </label>
+        <p id="modal-error" role="alert" class="hidden error-text"></p>
+        <div class="form-actions">
+          <button type="button" data-close class="button button--secondary">Cancel</button>
+          <button type="submit" class="button button--primary">Admit patient</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

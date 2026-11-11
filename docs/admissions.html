@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admissions — MediCap</title>
+  <meta name="description" content="Chronological sample admission and discharge records." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: { brand: { indigo: '#005ea8', sky: '#005ea8', teal: '#147d64', amber: '#8a5700', red: '#b42318' } },
+      fontFamily: {
+        sans: ['IBM Plex Sans','ui-sans-serif','system-ui','sans-serif'], mono: ['IBM Plex Mono','ui-monospace','monospace'],
+        display: ['IBM Plex Sans','ui-sans-serif','system-ui','sans-serif'], grotesk: ['IBM Plex Sans','ui-sans-serif','system-ui','sans-serif'],
+      },
+    } } };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body class="min-h-screen antialiased">
+  <main id="main-content" class="app-main">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">History / sample data</p>
+        <h1 class="page-title">Admissions</h1>
+        <p class="page-intro">A chronological record of placement and discharge transitions</p>
+      </div>
+    </header>
+
+    <div class="timeline-toolbar">
+      <label for="f-status" class="field-label">
+        Admission status
+        <select id="f-status" class="field-control">
+          <option value="">All records</option><option value="Active">Active only</option><option value="Discharged">Discharged only</option>
+        </select>
+      </label>
+      <span id="count" class="section-note" aria-live="polite"></span>
+    </div>
+
+    <ol id="timeline" class="timeline"></ol>
+    <p id="empty" class="hidden empty-note py-10 text-center">No admissions to show.</p>
+  </main>
+
+  <script type="module" src="js/admissions.js"></script>
+</body>
+</html>
